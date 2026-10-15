@@ -1,0 +1,137 @@
+<Window x:Class="SpotifyBar.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Spotify Bar" Height="120" Width="1280"
+        WindowStyle="None" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" ShowActivated="False"
+        Background="{StaticResource Surface}" Foreground="#F3F5F5" FontFamily="Segoe UI" PreviewKeyDown="Window_KeyDown">
+  <Grid x:Name="WindowHost">
+    <Border Background="{StaticResource Surface}" BorderBrush="#343A3E" BorderThickness="0,0,0,1">
+      <Grid x:Name="PlayerLayout" Height="120" Margin="0">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition x:Name="TransportColumn" Width="480"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="24,0,20,0" VerticalAlignment="Center">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+          <Button x:Name="ArtworkButton" Width="72" Height="72" Padding="0" Background="#253238" Click="OpenTrack_Click" ToolTip="Open this track in Spotify" AutomationProperties.Name="Open current track in Spotify">
+            <Grid><TextBlock x:Name="ArtworkPlaceholder" Text="&#xE8D6;" FontFamily="Segoe MDL2 Assets" FontSize="28" Foreground="#74868F" HorizontalAlignment="Center"/>
+              <Image x:Name="Artwork" Width="72" Height="72" Stretch="UniformToFill"/></Grid>
+          </Button>
+          <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+            <TextBlock x:Name="TrackTitle" Text="Spotify Bar" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="TrackArtist" Text="Your music, within reach." FontSize="13" Foreground="{StaticResource Muted}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+            <Button x:Name="StatusAction" Click="StatusAction_Click" HorizontalAlignment="Left" Padding="0,3,0,0" FontSize="11" Foreground="{StaticResource Muted}" MaxWidth="450" ToolTip="Connection status">
+              <TextBlock x:Name="StatusText" Text="Connect Spotify to start" TextTrimming="CharacterEllipsis"/>
+            </Button>
+          </StackPanel>
+        </Grid>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,9">
+            <Button x:Name="ShuffleButton" Style="{StaticResource IconButton}" Content="&#xE8B1;" Click="Shuffle_Click" ToolTip="Shuffle" AutomationProperties.Name="Toggle shuffle" Margin="0,0,16,0"/>
+            <Button x:Name="PreviousButton" Style="{StaticResource IconButton}" Content="&#xE892;" Click="Previous_Click" ToolTip="Previous track" AutomationProperties.Name="Previous track"/>
+            <Button x:Name="PlayButton" Style="{StaticResource PlayButtonStyle}" Content="&#xE768;" Width="48" Height="48" Margin="14,0" Background="{StaticResource Accent}" Foreground="#102016" FontSize="21" Click="Play_Click" ToolTip="Play" AutomationProperties.Name="Play"/>
+            <Button x:Name="NextButton" Style="{StaticResource IconButton}" Content="&#xE893;" Click="Next_Click" ToolTip="Next track" AutomationProperties.Name="Next track"/>
+            <Button x:Name="RepeatButton" Style="{StaticResource IconButton}" Content="&#xE8EE;" Click="Repeat_Click" ToolTip="Repeat: off" AutomationProperties.Name="Change repeat mode" Margin="16,0,0,0"/>
+          </StackPanel>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="38"/><ColumnDefinition Width="*"/><ColumnDefinition Width="38"/></Grid.ColumnDefinitions>
+            <TextBlock x:Name="ElapsedLabel" Text="0:00" FontSize="11" Foreground="{StaticResource Muted}"/>
+            <Slider x:Name="SeekSlider" Grid.Column="1" Minimum="0" Maximum="1" ValueChanged="Seek_Changed" PreviewMouseLeftButtonDown="Seek_Down" PreviewMouseLeftButtonUp="Seek_Up" LostMouseCapture="Seek_LostCapture" AutomationProperties.Name="Playback position" ToolTip="Seek within the track" Margin="3,0"/>
+            <TextBlock x:Name="DurationLabel" Grid.Column="2" Text="0:00" HorizontalAlignment="Right" FontSize="11" Foreground="{StaticResource Muted}"/>
+          </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+          <Button x:Name="ConnectButton" Content="Connect Spotify" Style="{StaticResource PrimaryButton}" Click="ConnectPanel_Click" Margin="0,0,8,0"/>
+          <Button x:Name="SearchButton" Click="SearchPanel_Click" ToolTip="Find a song" AutomationProperties.Name="Find a song" Padding="10,9">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="17"/><TextBlock x:Name="SearchLabel" Text="Search" Margin="8,0,0,0"/></StackPanel>
+          </Button>
+          <Button x:Name="DevicesButton" Click="DevicesPanel_Click" ToolTip="Choose a playback device" AutomationProperties.Name="Choose a playback device" Padding="10,9">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7F4;" FontFamily="Segoe MDL2 Assets" FontSize="18"/><TextBlock x:Name="DeviceLabel" Text="Devices" MaxWidth="110" TextTrimming="CharacterEllipsis" Margin="8,0,0,0"/></StackPanel>
+          </Button>
+          <Button x:Name="MuteButton" Style="{StaticResource IconButton}" Content="&#xE767;" Click="Mute_Click" ToolTip="Mute" AutomationProperties.Name="Mute volume"/>
+          <Slider x:Name="VolumeSlider" Width="92" Minimum="0" Maximum="100" ValueChanged="Volume_Changed" AutomationProperties.Name="Playback volume" ToolTip="Playback volume" Margin="0,0,12,0"/>
+          <Button x:Name="SettingsButton" Style="{StaticResource IconButton}" Content="&#xE713;" Click="SettingsPanel_Click" ToolTip="Settings" AutomationProperties.Name="Settings"/>
+          <Border Width="1" Height="32" Background="#343A3E" Margin="10,0"/>
+          <Button x:Name="CloseButton" Style="{StaticResource IconButton}" Content="&#xE8BB;" Click="Close_Click" ToolTip="Quit Spotify Bar" AutomationProperties.Name="Quit Spotify Bar" Background="#24292D"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Popup x:Name="Flyout" Placement="Bottom" PlacementTarget="{Binding ElementName=WindowHost}" StaysOpen="False" AllowsTransparency="True" VerticalOffset="8" Opened="Flyout_Opened" Closed="Flyout_Closed">
+      <Border x:Name="FlyoutBorder" Width="440" Background="{StaticResource PanelSurface}" BorderBrush="#53616A" BorderThickness="1" CornerRadius="12" Padding="22" TextElement.Foreground="#F3F5F5" TextElement.FontFamily="Segoe UI" PreviewKeyDown="Flyout_KeyDown">
+        <Grid>
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <DockPanel Margin="0,0,0,12">
+            <Button DockPanel.Dock="Right" Style="{StaticResource IconButton}" Content="&#xE8BB;" Width="28" Height="28" Click="DismissPanel_Click" ToolTip="Close panel" AutomationProperties.Name="Close panel"/>
+            <TextBlock x:Name="PanelHeading" Text="Connect to Spotify" FontSize="20" FontWeight="SemiBold"/>
+          </DockPanel>
+          <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="560">
+            <Grid>
+              <StackPanel x:Name="ConnectPanel" Visibility="Collapsed">
+                <TextBlock Text="Connect securely to control the Spotify app. Keep Spotify open on this PC; it can stay minimized. A browser page is used only for account sign-in." Style="{StaticResource HelpText}"/>
+                <Button x:Name="SignInButton" Content="Connect Spotify" Style="{StaticResource PrimaryButton}" Click="SignIn_Click" Margin="0,12,0,0"/>
+                <Button x:Name="CancelSignInButton" Content="Cancel sign-in" Click="CancelSignIn_Click" Visibility="Collapsed"/>
+                <Expander x:Name="AppSetup" Header="App setup" Foreground="#E9EEF0" Margin="0,18,0,0">
+                  <StackPanel Margin="0,8,0,0">
+                    <TextBlock Text="In the Spotify Developer Dashboard, enable Web API for your personal app, and add this redirect URI:" Style="{StaticResource HelpText}"/>
+                    <TextBox Text="http://127.0.0.1:43821/callback" IsReadOnly="True" Style="{StaticResource Field}" FontSize="12" AutomationProperties.Name="Spotify redirect URI"/>
+                    <Button Content="Open Spotify Developer Dashboard ↗" Click="Dashboard_Click" HorizontalAlignment="Left" Padding="0,10"/>
+                    <TextBlock Text="Client ID" Margin="0,8" FontSize="13"/>
+                    <TextBox x:Name="ClientIdField" Style="{StaticResource Field}" MaxLength="32" AutomationProperties.Name="Spotify app Client ID"/>
+                    <TextBlock Text="Use the Client ID, not the client secret. If you use another Spotify account to sign in, allowlist it in your app's user management." Style="{StaticResource HelpText}"/>
+                    <Button Content="Save app setup" Click="SaveSetup_Click" Background="#30383D" Margin="0,6"/>
+                  </StackPanel>
+                </Expander>
+              </StackPanel>
+
+              <StackPanel x:Name="SearchPanel" Visibility="Collapsed">
+                <TextBlock Text="Find a song or paste a Spotify track link." Style="{StaticResource HelpText}"/>
+                <Grid Margin="0,6,0,12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                  <TextBox x:Name="SearchField" Style="{StaticResource Field}" TextChanged="Search_TextChanged" KeyDown="Search_KeyDown" MaxLength="256" AutomationProperties.Name="Search songs or paste a Spotify track link"/>
+                  <Button Grid.Column="1" Style="{StaticResource IconButton}" Content="&#xE721;" Click="SearchNow_Click" Margin="8,0,0,0" ToolTip="Search" AutomationProperties.Name="Search now"/>
+                </Grid>
+                <TextBlock x:Name="SearchHint" Text="Search by song title or artist." Style="{StaticResource HelpText}"/>
+                <ItemsControl x:Name="SearchResults">
+                  <ItemsControl.ItemTemplate><DataTemplate>
+                    <Border BorderBrush="#343F46" BorderThickness="0,0,0,1" Padding="0,12">
+                      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel Margin="0,0,8,0" VerticalAlignment="Center"><TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                          <TextBlock Text="{Binding Artist}" Foreground="{StaticResource Muted}" FontSize="12" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/></StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}" Content="&#xE768;" Tag="{Binding}" Click="PlayResult_Click" ToolTip="Play now" AutomationProperties.Name="Play this song now"/>
+                        <Button Grid.Column="2" Style="{StaticResource IconButton}" Content="&#xE710;" Tag="{Binding}" Click="QueueResult_Click" ToolTip="Add to queue" AutomationProperties.Name="Add this song to queue"/>
+                      </Grid>
+                    </Border>
+                  </DataTemplate></ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+
+              <StackPanel x:Name="DevicesPanel" Visibility="Collapsed">
+                <TextBlock Text="Choose where your music plays." Style="{StaticResource HelpText}"/>
+                <ItemsControl x:Name="DeviceResults"><ItemsControl.ItemTemplate><DataTemplate>
+                  <Button Tag="{Binding}" Click="SelectDevice_Click" IsEnabled="{Binding CanSelect}" Background="#283239" HorizontalContentAlignment="Stretch" Margin="0,6" Padding="12,16" ToolTip="Transfer Spotify playback to this device">
+                    <TextBlock Text="{Binding Label}" TextWrapping="Wrap"/>
+                  </Button>
+                </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                <TextBlock x:Name="DeviceHint" Text="Looking for your devices…" Style="{StaticResource HelpText}"/>
+                <Button Content="Refresh devices" Click="RefreshDevices_Click" Background="#30383D" Margin="0,10,0,4"/>
+                <Button Content="Open Spotify" Click="OpenSpotify_Click" Background="#30383D" Margin="0,6,0,4"/>
+                <TextBlock Text="Keep the Spotify app open or minimized to play music on this PC." Style="{StaticResource HelpText}"/>
+              </StackPanel>
+
+              <StackPanel x:Name="SettingsPanel" Visibility="Collapsed">
+                <TextBlock Text="Display" Margin="0,4,0,8"/>
+                <ComboBox x:Name="MonitorPicker" DisplayMemberPath="Label" SelectedValuePath="Id" SelectionChanged="Monitor_Changed" Padding="8" AutomationProperties.Name="Display for the player bar"/>
+                <CheckBox x:Name="ReserveSpaceCheck" Content="Reserve space below the bar" Click="ReserveSpace_Click" Margin="0,20,0,8"/>
+                <TextBlock Text="Keeps maximized windows below the player." Style="{StaticResource HelpText}" Margin="0,0,0,10"/>
+                <Button Content="Open data &amp; help folder ↗" Click="OpenDataFolder_Click" HorizontalAlignment="Left" Padding="0,12"/>
+                <Border Height="1" Background="#3B454C" Margin="0,14"/>
+                <TextBlock x:Name="AccountLabel" Text="Spotify account" FontSize="14" FontWeight="SemiBold"/>
+                <Button Content="App setup and sign-in" Click="ConnectPanel_Click" HorizontalAlignment="Left" Padding="0,12"/>
+                <Button x:Name="SignOutButton" Content="Sign out" Click="SignOut_Click" HorizontalAlignment="Left" Padding="0,8"/>
+                <Border Height="1" Background="#3B454C" Margin="0,14"/>
+                <Button Content="Quit Spotify Bar" Click="Close_Click" Background="#30383D"/>
+                <TextBlock Text="Spotify Bar 1.3 · Independent Spotify remote" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,16,0,0"/>
+              </StackPanel>
+            </Grid>
+          </ScrollViewer>
+          <TextBlock x:Name="PanelMessage" Grid.Row="2" TextWrapping="Wrap" Foreground="#D9B98C" FontSize="12" Margin="0,12,0,0" Visibility="Collapsed"/>
+        </Grid>
+      </Border>
+    </Popup>
+  </Grid>
+</Window>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>SpotifyBar.Player</AssemblyName>
+    <RootNamespace>SpotifyBar</RootNamespace>
+    <Version>1.3.0</Version>
+    <Description>A native Windows remote for the Spotify app.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpotifyBar.Core\SpotifyBar.Core.csproj" />
+    <Compile Include="..\SpotifyBar.Launcher\PortablePaths.cs" Link="PortablePaths.cs" />
+  </ItemGroup>
+</Project>

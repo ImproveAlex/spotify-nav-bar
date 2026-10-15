@@ -1,0 +1,51 @@
+# Local SDKs, generated builds, packages and test output
+/.tools/
+/artifacts/
+**/bin/
+**/obj/
+*.exe
+*.dll
+*.pdb
+*.nupkg
+
+# Personal IDE, agent and operating-system state
+.vs/
+.idea/
+.vscode/
+.codex/
+.agents/
+.aws/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Runtime data must never be committed, even if copied into the project
+settings.json
+session.dat
+errors.log
+PreviousData/
+Runtime/
+Chrome/
+
+# Local credentials and private configuration
+.env
+.env.*
+!.env.example
+!.env.template
+secrets.json
+secrets.*.json
+*.local.json
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Historical local design notes and the early personalized concept board
+/design/IMAGE-PROMPT.txt
+/design/concept-board.png
+/design/PLAYBACK-OPTIONS.md

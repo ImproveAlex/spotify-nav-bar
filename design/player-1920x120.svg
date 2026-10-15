@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="120" viewBox="0 0 1920 120" role="img" aria-labelledby="title desc">
+  <title id="title">Spotify Bar — 1920 by 120 pixel player mockup</title>
+  <desc id="desc">Dark full-width player with artwork and track information on the left, playback and seek controls in the center, and search, devices, volume, settings and close on the right. Static design only.</desc>
+  <defs>
+    <linearGradient id="art" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1a3551"/><stop offset=".55" stop-color="#715578"/><stop offset="1" stop-color="#db987c"/></linearGradient>
+    <g id="search" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="6.5"/><path d="m14 14 6 6"/></g>
+    <g id="next" fill="currentColor"><path d="M3 3 16 12 3 21Z"/><rect x="18" y="3" width="3" height="18" rx="1"/></g>
+    <g id="device" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1" y="2" width="22" height="15" rx="2"/><path d="M12 17v5m-6 0h12"/></g>
+    <g id="speaker" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M2 9h4l6-5v16l-6-5H2Z"/><path d="M16 8q5 4 0 8m3-11q8 7 0 14"/></g>
+    <g id="gear" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.8"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4M4 4l3 3m10 10 3 3M4 20l3-3M17 7l3-3"/></g>
+  </defs>
+  <rect width="1920" height="120" fill="#141618"/>
+  <path d="M0 119.5H1920" stroke="#32363a"/>
+  <g font-family="Segoe UI, Arial, sans-serif" fill="#f4f5f5">
+    <rect x="24" y="24" width="72" height="72" rx="6" fill="url(#art)"/>
+    <path d="M25 79 48 54 64 69 78 49 95 75v20H25Z" fill="#202c42" opacity=".7"/>
+    <circle cx="76" cy="43" r="8" fill="#f2ccb1" opacity=".8"/>
+    <text x="114" y="50" font-size="18" font-weight="600">Night Drive</text>
+    <text x="114" y="74" font-size="14" fill="#a5aaaf">Mira</text>
+    <text x="114" y="93" font-size="10" fill="#6f787e" letter-spacing="1.5">PLAYING ON SPOTIFY</text>
+    <g stroke="#a5aaaf" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M823 34h5c8 0 12 20 20 20h5m-5-5 5 5-5 5M823 54h5c4 0 6-5 9-10m6-6c2-3 3-4 5-4h5m-5-5 5 5-5 5"/>
+      <path d="M1067 35h24l-5-5m5 5-5 5m5 13h-24l5 5m-5-5 5-5"/>
+    </g>
+    <use href="#next" x="1003" y="32" color="#f4f5f5"/>
+    <g transform="translate(917 32) scale(-1 1)"><use href="#next" color="#f4f5f5"/></g>
+    <circle cx="960" cy="44" r="25" fill="#1ed760"/>
+    <g fill="#102016"><rect x="952" y="34" width="5" height="20" rx="1"/><rect x="963" y="34" width="5" height="20" rx="1"/></g>
+    <text x="692" y="95" font-size="12" fill="#a5aaaf">1:24</text>
+    <rect x="734" y="86" width="450" height="4" rx="2" fill="#41464a"/>
+    <rect x="734" y="86" width="159" height="4" rx="2" fill="#1ed760"/>
+    <circle cx="893" cy="88" r="5" fill="#f4f5f5"/>
+    <text x="1198" y="95" font-size="12" fill="#a5aaaf">3:58</text>
+    <rect x="1320" y="39" width="100" height="42" rx="8" fill="#24282b"/>
+    <use href="#search" x="1334" y="49" color="#cdd2d5"/>
+    <text x="1363" y="65" font-size="14">Search</text>
+    <use href="#device" x="1450" y="47" color="#1ed760"/>
+    <text x="1486" y="65" font-size="14">This PC</text>
+    <path d="m1554 57 5 5 5-5" fill="none" stroke="#a5aaaf" stroke-width="1.5"/>
+    <path d="M1591 37V83" stroke="#32363a"/>
+    <use href="#speaker" x="1615" y="47" color="#cdd2d5"/>
+    <rect x="1655" y="58" width="96" height="4" rx="2" fill="#41464a"/>
+    <rect x="1655" y="58" width="64" height="4" rx="2" fill="#cdd2d5"/>
+    <circle cx="1719" cy="60" r="5" fill="#f4f5f5"/>
+    <use href="#gear" x="1783" y="48" color="#cdd2d5"/>
+    <path d="M1835 37V83" stroke="#32363a"/>
+    <rect x="1855" y="38" width="44" height="44" rx="8" fill="#23272a"/>
+    <path d="m1870 53 14 14m0-14-14 14" stroke="#e9edef" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+</svg>
