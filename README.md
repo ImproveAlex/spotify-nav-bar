@@ -4,6 +4,8 @@ A native Windows remote for the Spotify desktop app, built with C#, WPF, and .NE
 
 ## Run and test
 
+Download **SpotifyBar-win-x64.zip** from the [latest GitHub release](https://github.com/ImproveAlex/spotify-nav-bar/releases/latest), extract it, and run `SpotifyBar.exe`.
+
 Double-click **`artifacts\win-x64\SpotifyBar.exe`**. This is a portable executable containing the player and its runtime. No installer, administrator access, or separate .NET installation is needed. Share just this executable; each user configures their own account access.
 
 1. Open the Spotify desktop app and sign in to your Premium account.
@@ -94,6 +96,14 @@ Build on Windows with the .NET 10 SDK. The script prefers `.tools\dotnet` when p
 The service checks use fake HTTP responses, a real local sign-in callback and Windows DPAPI. They verify playback command routing/encoding, playback metadata and device restrictions, PKCE, link validation, token refresh/revocation/concurrency, saved-session compatibility, sign-out races, rate backoff, Documents storage, migration, and launcher argument quoting.
 
 The native smoke checks use demo data and an isolated `artifacts\portable-smoke\Documents\SpotifyBar` folder. They verify physical height/monitor width, topmost style, player-only startup, pause, on-demand panels, panel dismissal, help generation and actual native runtime extraction beneath Documents. Screenshots and the JSON report are in `artifacts\verification`. They do not authenticate or demonstrate live Spotify playback. Verify real playback with your account, plus monitor switching and 125%/150% scaling on your hardware.
+
+### Automatic GitHub releases
+
+Every push to `main` runs `.github/workflows/release.yml` on a clean Windows runner. It installs the .NET 10 SDK, runs the service checks, builds the self-contained portable x64 executable, and publishes a GitHub release only after its download assets are uploaded and verified. Failed builds or tests do not publish a release. Interactive UI checks remain a local verification step.
+
+Each run uses a unique tag such as `v1.3.0-build.1.1` (app version, workflow run number, and attempt). Runs are not cancelled by newer pushes, so each successful push can produce its own release. An older run finishing later does not replace the current main commit's release as latest. The workflow can also be run manually from Actions on `main`.
+
+Each release attaches `SpotifyBar-win-x64.zip`, containing only `SpotifyBar.exe`, and a separate `SHA256SUMS.txt`. Settings, sessions, local tools and test reports are never packaged. Build paths in managed debug information are mapped to a generic path. GitHub supplies the workflow's short-lived release token; no personal token or Spotify credentials are required in repository secrets.
 
 ## Troubleshooting
 
