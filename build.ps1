@@ -22,10 +22,10 @@ function Invoke-Dotnet {
     if ($LASTEXITCODE -ne 0) { throw "dotnet failed with exit code $LASTEXITCODE" }
 }
 
-Invoke-Dotnet restore $appProject --configfile $nugetConfig -p:NuGetAudit=false
+Invoke-Dotnet restore $appProject --configfile $nugetConfig '-p:NuGetAudit=false'
 Invoke-Dotnet build $appProject --no-restore -c Release --nologo
 if (-not $SkipTests) {
-    Invoke-Dotnet restore $testProject --configfile $nugetConfig -p:NuGetAudit=false
+    Invoke-Dotnet restore $testProject --configfile $nugetConfig '-p:NuGetAudit=false'
     Invoke-Dotnet run --project $testProject -c Release --no-restore
 }
 if ($Publish) {
@@ -33,9 +33,9 @@ if ($Publish) {
     $releaseDirectory = Join-Path $projectRoot "artifacts\$Runtime"
     $launcherBuild = Join-Path $projectRoot "artifacts\launcher\$Runtime"
     New-Item -ItemType Directory -Path $releaseDirectory, $launcherBuild -Force | Out-Null
-    Invoke-Dotnet restore $appProject --configfile $nugetConfig -r $Runtime -p:NuGetAudit=false -p:SelfContained=true -p:PublishSingleFile=true
+    Invoke-Dotnet restore $appProject --configfile $nugetConfig -r $Runtime '-p:NuGetAudit=false' '-p:SelfContained=true' '-p:PublishSingleFile=true'
     Invoke-Dotnet publish $appProject -c Release -r $Runtime --self-contained true --no-restore `
-        -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=embedded `
+        '-p:PublishSingleFile=true' '-p:IncludeNativeLibrariesForSelfExtract=true' '-p:DebugType=embedded' `
         -o $payloadDirectory
     $payload = Join-Path $payloadDirectory 'SpotifyBar.Player.exe'
     $payloadHash = (Get-FileHash -LiteralPath $payload -Algorithm SHA256).Hash.ToLowerInvariant()
